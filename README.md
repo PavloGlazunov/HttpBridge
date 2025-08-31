@@ -5,4 +5,5 @@
 - RestEase
 - Refit
 - Refitter
-- WebApiCLient
+- WebApiClient
+- Swagger CodeGen
