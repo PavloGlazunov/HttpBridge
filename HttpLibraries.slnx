@@ -3,6 +3,7 @@
     <Project Path="src/Flurl.Http.Extensions/Flurl.Http.Extensions.csproj" />
     <Project Path="src/Http.Extensions.Core/Http.Extensions.Core.csproj" />
     <Project Path="src/Refit.Extensions/Refit.Extensions.csproj" />
+    <Project Path="src/Refitter.Extensions/Refitter.Extensions.csproj" />
     <Project Path="src/RestEase.Extensions/RestEase.Extensions.csproj" />
     <Project Path="src/RestSharp.Extensions/RestSharp.Extensions.csproj" />
     <Project Path="src/WebApiClient.Extensions/WebApiClient.Extensions.csproj" />

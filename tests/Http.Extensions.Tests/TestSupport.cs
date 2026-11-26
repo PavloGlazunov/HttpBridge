@@ -16,7 +16,9 @@ public sealed class StubHandler : HttpMessageHandler
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
         Requests.Add(request);
-        string json = request.RequestUri!.AbsolutePath.EndsWith("/deep")
+        string json = request.RequestUri!.AbsolutePath.StartsWith("/pet/")
+            ? """{"id":1,"name":"rex","status":"available"}"""
+            : request.RequestUri!.AbsolutePath.EndsWith("/deep")
             ? """{"status":"Unhealthy","errors":["db"]}"""
             : """{"status":"Healthy"}""";
         return Task.FromResult(new HttpResponseMessage { Content = new StringContent(json) });
@@ -34,12 +36,12 @@ public sealed class AddAuthHeaderHandler : DelegatingHandler
 
 public static class TestSupport
 {
-    public static IConfiguration Config() => new ConfigurationBuilder()
+    public static IConfiguration Config(string section = "Google") => new ConfigurationBuilder()
         .AddInMemoryCollection(new Dictionary<string, string>
         {
-            ["Google:BaseUrl"] = "https://google.test/",
-            ["Google:Headers:function-key"] = "abc",
-            ["Google:MaxRetry"] = "1",
+            [$"{section}:BaseUrl"] = "https://google.test/",
+            [$"{section}:Headers:function-key"] = "abc",
+            [$"{section}:MaxRetry"] = "1",
         })
         .Build();
 
