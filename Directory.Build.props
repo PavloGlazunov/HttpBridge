@@ -6,7 +6,12 @@
         <LangVersion>latest</LangVersion>
         <NeutralLanguage>en-US</NeutralLanguage>
         <Version>1.0.0</Version>
-        <Authors>Pavlo Glazunov</Authors>
+        <Authors>Pavlo Hlazunov</Authors>
+        <Copyright>Copyright (c) 2026 Pavlo Hlazunov</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/PavloGlazunov/HttpBridge</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/PavloGlazunov/HttpBridge.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
     <ItemGroup Condition="'$(IsPackable)' != 'false' And Exists('$(MSBuildProjectDirectory)/README.md')">
         <None Include="README.md" Pack="true" PackagePath="/" />

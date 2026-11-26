@@ -3,6 +3,7 @@
     <PropertyGroup>
         <PackageId>HttpBridge.WebApiClient</PackageId>
         <Description>WebApiClientCore registration with System.Text.Json, resilience policies, configuration binding, authorization handlers and health checks.</Description>
+        <PackageTags>http;httpclient;webapiclient;resilience;health-check;rest-client</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

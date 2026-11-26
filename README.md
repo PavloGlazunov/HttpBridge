@@ -34,3 +34,7 @@ dotnet pack HttpBridge.slnx -c Release -o artifacts
 
 Generated clients are committed. Regenerate with `dotnet tool restore`, then the commands in the Refitter and
 SwaggerCodeGen READMEs.
+
+## License
+
+[MIT](LICENSE)

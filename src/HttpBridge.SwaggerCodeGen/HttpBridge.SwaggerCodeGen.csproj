@@ -3,6 +3,7 @@
     <PropertyGroup>
         <PackageId>HttpBridge.SwaggerCodeGen</PackageId>
         <Description>HttpClient client generated from OpenAPI with NSwag, wired up with configuration binding, resilience policies, authorization handlers and health checks.</Description>
+        <PackageTags>http;httpclient;nswag;openapi;swagger;codegen</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

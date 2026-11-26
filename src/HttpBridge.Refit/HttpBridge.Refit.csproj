@@ -3,6 +3,7 @@
     <PropertyGroup>
         <PackageId>HttpBridge.Refit</PackageId>
         <Description>Refit client registration with resilience policies, configuration binding, authorization handlers and health checks.</Description>
+        <PackageTags>http;httpclient;refit;resilience;health-check;rest-client</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

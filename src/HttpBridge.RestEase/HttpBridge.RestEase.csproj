@@ -3,6 +3,7 @@
     <PropertyGroup>
         <PackageId>HttpBridge.RestEase</PackageId>
         <Description>RestEase client registration with System.Text.Json, resilience policies, configuration binding, authorization handlers and health checks.</Description>
+        <PackageTags>http;httpclient;restease;resilience;health-check;rest-client</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

@@ -3,6 +3,7 @@
     <PropertyGroup>
         <PackageId>HttpBridge.Flurl</PackageId>
         <Description>Flurl.Http client registration with System.Text.Json, resilience policies, configuration binding, authorization handlers and health checks.</Description>
+        <PackageTags>http;httpclient;flurl;resilience;health-check;rest-client</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

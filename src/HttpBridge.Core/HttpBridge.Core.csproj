@@ -3,6 +3,7 @@
     <PropertyGroup>
         <PackageId>HttpBridge.Core</PackageId>
         <Description>Shared building blocks for the HttpBridge client packages: options, resilience, health checks, OData filter builder.</Description>
+        <PackageTags>http;httpclient;odata;resilience;health-check;options</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
