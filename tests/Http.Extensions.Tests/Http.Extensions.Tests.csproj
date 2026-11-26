@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Http.Extensions.Core\Http.Extensions.Core.csproj" />
+      <ProjectReference Include="..\..\src\Refit.Extensions\Refit.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

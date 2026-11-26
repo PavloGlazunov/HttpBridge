@@ -60,4 +60,13 @@ public static class HttpClientRegistration
 
         return services;
     }
+
+    /// <summary>Registers an adapter for proxies that cannot implement <see cref="IHealthCheckableApiClient"/> themselves.</summary>
+    public static IServiceCollection AddHealthCheckable<TClient>(
+        this IServiceCollection services,
+        Func<TClient, IHealthCheckableApiClient> adapter)
+        where TClient : class
+    {
+        return services.AddTransient(sp => adapter(sp.GetRequiredService<TClient>()));
+    }
 }

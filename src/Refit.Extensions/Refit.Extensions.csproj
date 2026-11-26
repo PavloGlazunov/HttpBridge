@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>Refit.Extensions</PackageId>
+        <Description>Refit client registration with resilience policies, configuration binding, authorization handlers and health checks.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Refit" />
+        <PackageReference Include="Refit.HttpClientFactory" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Http.Extensions.Core\Http.Extensions.Core.csproj" />
+    </ItemGroup>
+
+</Project>
