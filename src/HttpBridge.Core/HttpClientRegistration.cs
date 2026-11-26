@@ -21,10 +21,10 @@ public static class HttpClientRegistration
             configuration.GetSection(typeof(TOptions).Name.Replace("ConfigurationOptions", string.Empty));
         TOptions options = section.Get<TOptions>() ?? new TOptions();
 
-        if (!Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _))
+        if (!Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out Uri baseUri) || baseUri.Scheme is not ("http" or "https"))
         {
             throw new InvalidOperationException(
-                $"Configuration section '{section.Path}' must define an absolute BaseUrl (got '{options.BaseUrl}').");
+                $"Configuration section '{section.Path}' must define an absolute http(s) BaseUrl (got '{options.BaseUrl}').");
         }
 
         // relative routes ("health") only keep the base path ("/api/v1/") when it ends with a slash
