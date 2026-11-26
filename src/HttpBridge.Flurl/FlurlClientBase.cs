@@ -27,10 +27,13 @@ public abstract class FlurlClientBase : IHealthCheckableApiClient
 
     public Task<HealthCheckResult> GetDeepHealthAsync(string prefix = null) => ReadHealthAsync(prefix, "health", "deep");
 
-    private async Task<HealthCheckResult> ReadHealthAsync(string prefix, params string[] segments)
+    private Task<HealthCheckResult> ReadHealthAsync(string prefix, params string[] segments)
     {
         IEnumerable<string> path = string.IsNullOrEmpty(prefix) ? segments : segments.Prepend(prefix);
-        IFlurlResponse response = await Client.Request(path.ToArray()).AllowAnyHttpStatus().GetAsync();
-        return await ResponseHelper.ReadHealthAsync(Task.FromResult(response.ResponseMessage));
+
+        async Task<HttpResponseMessage> SendAsync() =>
+            (await Client.Request(path.ToArray()).AllowAnyHttpStatus().GetAsync()).ResponseMessage;
+
+        return ResponseHelper.ReadHealthAsync(SendAsync());
     }
 }

@@ -19,7 +19,7 @@ public class RefitterExtensionsTests
 
         Pet pet = await sp.GetRequiredService<IPetstoreApi>().GetPetById(1);
         Assert.Equal("rex", pet.Name);
-        Assert.Equal("/pet/1", handler.Requests.Single().RequestUri!.AbsolutePath);
+        Assert.Equal("/api/v1/pet/1", handler.Requests.Single().RequestUri!.AbsolutePath);
 
         handler.Requests.Clear();
         await TestSupport.VerifyHealthAsync(sp, handler);

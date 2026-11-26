@@ -19,7 +19,7 @@ public class SwaggerCodeGenExtensionsTests
 
         Pet pet = await sp.GetRequiredService<IPetstoreClient>().GetPetByIdAsync(1);
         Assert.Equal("rex", pet.Name);
-        Assert.Equal("/pet/1", handler.Requests.Single().RequestUri!.AbsolutePath);
+        Assert.Equal("/api/v1/pet/1", handler.Requests.Single().RequestUri!.AbsolutePath);
 
         handler.Requests.Clear();
         await TestSupport.VerifyHealthAsync(sp, handler);

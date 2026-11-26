@@ -5,8 +5,10 @@ Reference it directly only if you write your own library adapter.
 
 - `BaseServiceConfigurationOptions` - base URL, headers, retry, timeout, circuit breaker settings (bound from appsettings.json).
 - `ResiliencePolicies.WithPolicy` - `AddStandardResilienceHandler` configured from the options.
-- `IHealthCheckableApiClient` - library-agnostic `/health` and `/health/deep` contract.
-- `HttpClientRegistration` - option binding, HttpClient defaults, auth handler, health registration.
+- `IHealthCheckableApiClient` - library-agnostic `/health` and `/health/deep` contract. Probes never throw and never return
+  null: transport errors and non-success statuses become an `Unhealthy` result, a JSON body with `status` is used as is.
+- `HttpClientRegistration` - option binding, HttpClient defaults, auth handler, health registration. `BaseUrl` must be an
+  absolute URL (checked at registration); a trailing `/` is added so base paths such as `https://host/api/v1` are kept.
 - `FilterQueryBuilder` - builds OData `$filter` from a LINQ expression.
 
 ## OData filter

@@ -1,5 +1,4 @@
 using RestSharp;
-using System.Net;
 using System.Text.Json;
 using RestSharp.Serializers.Json;
 using HttpBridge.Core;
@@ -27,10 +26,13 @@ public abstract class RestSharpClientBase : IHealthCheckableApiClient
 
     public Task<HealthCheckResult> GetDeepHealthAsync(string prefix = null) => ReadHealthAsync(prefix, "health/deep");
 
-    private async Task<HealthCheckResult> ReadHealthAsync(string prefix, string path)
-    {
-        RestResponse<HealthCheckResult> response = await Client.ExecuteAsync<HealthCheckResult>(
-            new RestRequest(string.IsNullOrEmpty(prefix) ? path : $"{prefix}/{path}"));
-        return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.BadRequest ? response.Data : null;
-    }
+    private Task<HealthCheckResult> ReadHealthAsync(string prefix, string path) =>
+        ResponseHelper.ProbeAsync(async () =>
+        {
+            RestResponse response = await Client.ExecuteAsync(
+                new RestRequest(string.IsNullOrEmpty(prefix) ? path : $"{prefix}/{path}"));
+            return response.StatusCode != default
+                ? ResponseHelper.ToHealthResult(response.StatusCode, response.Content)
+                : HealthCheckResult.CreateUnhealthyResult([response.ErrorMessage ?? response.ResponseStatus.ToString()]);
+        });
 }

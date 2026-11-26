@@ -16,9 +16,15 @@ public sealed class StubHandler : HttpMessageHandler
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
         Requests.Add(request);
-        string json = request.RequestUri!.AbsolutePath.StartsWith("/pet/")
+        string path = request.RequestUri!.AbsolutePath;
+        if (path.Contains("/down/"))
+        {
+            return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.ServiceUnavailable) { Content = new StringContent("Unhealthy") });
+        }
+
+        string json = path.Contains("/pet/")
             ? """{"id":1,"name":"rex","status":"available"}"""
-            : request.RequestUri!.AbsolutePath.EndsWith("/deep")
+            : path.EndsWith("/deep")
             ? """{"status":"Unhealthy","errors":["db"]}"""
             : """{"status":"Healthy"}""";
         return Task.FromResult(new HttpResponseMessage { Content = new StringContent(json) });
@@ -39,7 +45,7 @@ public static class TestSupport
     public static IConfiguration Config(string section = "Google") => new ConfigurationBuilder()
         .AddInMemoryCollection(new Dictionary<string, string>
         {
-            [$"{section}:BaseUrl"] = "https://google.test/",
+            [$"{section}:BaseUrl"] = "https://google.test/api/v1",
             [$"{section}:Headers:function-key"] = "abc",
             [$"{section}:MaxRetry"] = "1",
         })
@@ -55,7 +61,14 @@ public static class TestSupport
         Assert.Equal("Unhealthy", deep.Status);
         Assert.Equal(["db"], deep.Errors);
 
-        Assert.Equal(["/health", "/api/health/deep"], handler.Requests.Select(r => r.RequestUri!.AbsolutePath));
+        var down = await client.GetHealthAsync("down");
+        Assert.NotNull(down);
+        Assert.Equal("Unhealthy", down.Status);
+        Assert.Contains("503", Assert.Single(down.Errors));
+
+        Assert.Equal(
+            ["/api/v1/health", "/api/v1/api/health/deep", "/api/v1/down/health"],
+            handler.Requests.Select(r => r.RequestUri!.AbsolutePath).Distinct()); // 503 may be retried by .WithPolicy()
         Assert.All(handler.Requests, r =>
         {
             Assert.Equal("google.test", r.RequestUri!.Host);

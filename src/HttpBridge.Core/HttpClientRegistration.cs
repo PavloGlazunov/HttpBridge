@@ -7,7 +7,10 @@ namespace HttpBridge.Core;
 /// <summary>Steps shared by every library package: bind options, configure HttpClient, auth handler, health registration.</summary>
 public static class HttpClientRegistration
 {
-    /// <summary>Binds section "{TOptions name without ConfigurationOptions}" and registers it as IOptions.</summary>
+    /// <summary>
+    /// Binds section "{TOptions name without ConfigurationOptions}" and registers it as IOptions. Requires an absolute
+    /// BaseUrl and normalises it to end with "/".
+    /// </summary>
     public static TOptions BindOptions<TOptions>(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -17,6 +20,15 @@ public static class HttpClientRegistration
         IConfigurationSection section =
             configuration.GetSection(typeof(TOptions).Name.Replace("ConfigurationOptions", string.Empty));
         TOptions options = section.Get<TOptions>() ?? new TOptions();
+
+        if (!Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _))
+        {
+            throw new InvalidOperationException(
+                $"Configuration section '{section.Path}' must define an absolute BaseUrl (got '{options.BaseUrl}').");
+        }
+
+        // relative routes ("health") only keep the base path ("/api/v1/") when it ends with a slash
+        options.BaseUrl = options.BaseUrl.TrimEnd('/') + "/";
         services.Configure<TOptions>(section);
 
         if (headers is not null && options.Headers is null or { Count: 0 })
