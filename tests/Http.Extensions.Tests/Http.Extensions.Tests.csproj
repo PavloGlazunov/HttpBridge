@@ -23,6 +23,7 @@
       <ProjectReference Include="..\..\src\Flurl.Http.Extensions\Flurl.Http.Extensions.csproj" />
       <ProjectReference Include="..\..\src\WebApiClient.Extensions\WebApiClient.Extensions.csproj" />
       <ProjectReference Include="..\..\src\Refitter.Extensions\Refitter.Extensions.csproj" />
+      <ProjectReference Include="..\..\src\SwaggerCodeGen.Extensions\SwaggerCodeGen.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

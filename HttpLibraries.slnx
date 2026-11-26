@@ -6,6 +6,7 @@
     <Project Path="src/Refitter.Extensions/Refitter.Extensions.csproj" />
     <Project Path="src/RestEase.Extensions/RestEase.Extensions.csproj" />
     <Project Path="src/RestSharp.Extensions/RestSharp.Extensions.csproj" />
+    <Project Path="src/SwaggerCodeGen.Extensions/SwaggerCodeGen.Extensions.csproj" />
     <Project Path="src/WebApiClient.Extensions/WebApiClient.Extensions.csproj" />
   </Folder>
   <Folder Name="/tests/">
