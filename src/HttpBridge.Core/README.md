@@ -20,13 +20,17 @@ FilterQueryBuilder.CreateFilter<Invoice>(x => x.Name.Contains("test"));
 // contains(name,'test')
 FilterQueryBuilder.CreateFilter<Invoice>(x => x.Name.StartsWith("test"));
 // startswith(name,'test')
-FilterQueryBuilder.CreateFilter<Invoice>(x => names.Contains(x.Name)); // names is string[] or List<string>
+FilterQueryBuilder.CreateFilter<Invoice>(x => names.Contains(x.Name)); // names is string[], List<string>, HashSet<string>
 // name in ('first','last')
 FilterQueryBuilder.CreateFilter<Invoice>(x => x.Client.FirstName == "a");
 // client/firstName eq 'a'
 FilterQueryBuilder.CreateFilter<Invoice>(x => x.Active && (x.Age > 5 || x.Age < 1));
 // active and (age gt 5 or age lt 1)
+FilterQueryBuilder.CreateFilter<Invoice>(x => !x.Active);                     // not active
+FilterQueryBuilder.CreateFilter<Invoice>(x => x.Name == "O'Brien");            // name eq 'O''Brien'
+FilterQueryBuilder.CreateFilter<Invoice>(x => x.Status == Status.Paid);       // status eq 'Paid'
 ```
 
-Property names are camelCased, nested members use `/`.
+Property names are camelCased, nested members use `/`. Single quotes in strings are doubled, numbers and dates are
+formatted with the invariant culture (dates as UTC, `Unspecified` is treated as UTC).
 `new DateTime(...)` inside the lambda is not supported - capture the value in a variable first.

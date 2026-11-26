@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -19,15 +20,37 @@ public static class FilterQueryBuilder
             MethodCallExpression methodCall => ParseMethodCall(methodCall),
             MemberExpression member => TryEvaluate(member) ?? GetMemberPath(member),
             ConstantExpression constant => FormatConstant(constant.Value),
-            UnaryExpression unary => ParseExpression(unary.Operand),
+            UnaryExpression unary => ParseUnary(unary),
             _ => throw new NotSupportedException($"Unsupported expression: {expression.NodeType}")
+        };
+    }
+
+    private static string ParseUnary(UnaryExpression unary)
+    {
+        return unary.NodeType switch
+        {
+            ExpressionType.Not when unary.Operand is BinaryExpression => $"not ({ParseExpression(unary.Operand)})",
+            ExpressionType.Not => $"not {ParseExpression(unary.Operand)}",
+            ExpressionType.Negate or ExpressionType.NegateChecked => $"-{ParseExpression(unary.Operand)}",
+            ExpressionType.Convert or ExpressionType.ConvertChecked or ExpressionType.TypeAs or ExpressionType.Quote =>
+                ParseExpression(unary.Operand),
+            _ => throw new NotSupportedException($"Unsupported unary expression: {unary.NodeType}")
         };
     }
 
     private static string ParseBinary(BinaryExpression expr)
     {
-        string left = FormatBinaryExpression(expr.Left, expr.NodeType);
-        string right = FormatBinaryExpression(expr.Right, expr.NodeType);
+        // x.Status == Status.Paid compiles to Convert(x.Status) == 1; turn the 1 back into the enum value.
+        Type enumType = EnumOperandType(expr.Left) ?? EnumOperandType(expr.Right);
+        Expression leftSide = enumType is not null && EnumOperandType(expr.Left) is null
+            ? Expression.Constant(GetValue(Expression.Convert(expr.Left, enumType)), enumType)
+            : expr.Left;
+        Expression rightSide = enumType is not null && EnumOperandType(expr.Right) is null
+            ? Expression.Constant(GetValue(Expression.Convert(expr.Right, enumType)), enumType)
+            : expr.Right;
+
+        string left = FormatBinaryExpression(leftSide, expr.NodeType);
+        string right = FormatBinaryExpression(rightSide, expr.NodeType);
         string op = GetLogicalOperator(expr.NodeType) ?? GetOperator(expr.NodeType);
 
         return $"{left} {op} {right}";
@@ -80,6 +103,18 @@ public static class FilterQueryBuilder
                 .Select(FormatConstant)
                 .ToArray();
             return $"{property} in ({string.Join(",", values)})";
+        }
+
+        // list.Contains(x.Prop), hashSet.Contains(x.Prop), ...
+        if (expr.Object is not null
+            && expr.Object.Type != typeof(string)
+            && typeof(IEnumerable).IsAssignableFrom(expr.Object.Type)
+            && expr.Method.Name == nameof(Enumerable.Contains)
+            && expr.Arguments.Count == 1)
+        {
+            string property = ParseExpression(expr.Arguments[0]);
+            var collection = (IEnumerable)GetValue(expr.Object);
+            return $"{property} in ({string.Join(",", collection.Cast<object>().Select(FormatConstant))})";
         }
 
         if (expr.Method.Name is nameof(string.ToLower) or nameof(string.ToUpper))
@@ -156,37 +191,44 @@ public static class FilterQueryBuilder
 
     private static string TryEvaluate(MemberExpression member)
     {
-        if (member.Expression == null)
+        if (member.Expression is null or ConstantExpression)
         {
-            return FormatConstant(GetStaticMemberValue(member));
-        }
-
-        if (member.Expression is ConstantExpression closure)
-        {
-            object container = closure.Value;
-            object value = ((FieldInfo)member.Member).GetValue(container);
-            return FormatConstant(value);
+            object target = (member.Expression as ConstantExpression)?.Value;
+            return FormatConstant(GetMemberValue(member.Member, target));
         }
 
         try
         {
-            object value = GetValue(member);
-            return FormatConstant(value);
+            return FormatConstant(GetValue(member));
         }
         catch
         {
-            return null;
+            return null; // depends on the lambda parameter, rendered as a property path instead
         }
     }
 
-    private static object GetStaticMemberValue(MemberExpression member)
+    private static object GetMemberValue(MemberInfo member, object target)
     {
-        return member.Member switch
+        return member switch
         {
-            FieldInfo field => field.GetValue(null),
-            PropertyInfo prop => prop.GetValue(null),
-            _ => throw new NotSupportedException($"Unsupported static member: {member.Member.Name}")
+            FieldInfo field => field.GetValue(target),
+            PropertyInfo prop => prop.GetValue(target),
+            _ => throw new NotSupportedException($"Unsupported member: {member.Name}")
         };
+    }
+
+    private static Type EnumOperandType(Expression expression)
+    {
+        if (expression is UnaryExpression { NodeType: ExpressionType.Convert or ExpressionType.ConvertChecked } unary)
+        {
+            Type type = Nullable.GetUnderlyingType(unary.Operand.Type) ?? unary.Operand.Type;
+            if (type.IsEnum)
+            {
+                return type;
+            }
+        }
+
+        return null;
     }
 
     private static string FormatConstant(object value)
@@ -194,13 +236,18 @@ public static class FilterQueryBuilder
         return value switch
         {
             null => "null",
-            string s => $"'{s}'",
-            DateTime dt => $"{dt.ToUniversalTime():yyyy-MM-ddTHH:mm:ss.fffffffZ}",
-            bool b => b.ToString().ToLower(),
+            string s => $"'{s.Replace("'", "''")}'",
+            DateTime dt => FormatDate(dt.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(dt, DateTimeKind.Utc) : dt.ToUniversalTime()),
+            DateTimeOffset dto => FormatDate(dto.UtcDateTime),
+            bool b => b ? "true" : "false",
             Guid g => $"'{g}'",
+            Enum e => $"'{e}'",
+            IFormattable f => f.ToString(null, CultureInfo.InvariantCulture),
             _ => value.ToString()
         };
     }
+
+    private static string FormatDate(DateTime utc) => utc.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ", CultureInfo.InvariantCulture);
 
     private static string GetMemberPath(MemberExpression member)
     {
