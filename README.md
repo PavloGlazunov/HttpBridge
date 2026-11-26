@@ -35,6 +35,19 @@ dotnet pack HttpBridge.slnx -c Release -o artifacts
 Generated clients are committed. Regenerate with `dotnet tool restore`, then the commands in the Refitter and
 SwaggerCodeGen READMEs.
 
+## Publishing
+
+CI (`.github/workflows/ci.yml`) builds and tests every push to `main` and every pull request.
+
+To publish, set up nuget.org Trusted Publishing (policy for this repo and `publish.yml`) and add the repository secret `NUGET_USER` (nuget.org profile name), then push a tag:
+
+```powershell
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+`.github/workflows/publish.yml` builds, tests and pushes all eight packages with the version taken from the tag.
+
 ## License
 
 [MIT](LICENSE)
