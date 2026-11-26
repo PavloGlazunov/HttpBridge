@@ -50,6 +50,7 @@ public static class ServiceCollectionExtensions
         where TOptions : BaseServiceConfigurationOptions, new()
     {
         TOptions options = services.BindOptions<TOptions>(configuration, headers);
+        ReflectionSupport.EnsureRegistered(); // Refit 17: reflection-based JSON needs Refit.Reflection
         refitSettings ??= new RefitSettings(
             new SystemTextJsonContentSerializer(JsonSerializationSettingsBuilder.CreateDefaultJsonOptions()));
 

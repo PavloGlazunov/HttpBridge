@@ -38,7 +38,8 @@ Targets .NET 10, Refit 17.
 `AddRefitClient` returns `ClientBuilder<TClient, TOptions>`; `.HttpClientBuilder` exposes the underlying `IHttpClientBuilder`.
 
 > Refit 17 replaced `AddRefitClient` with the source-generated `AddRefitGeneratedClient`. This package wraps it, so the
-> consuming code does not change.
+> consuming code does not change. Refit 17 also needs `Refit.Reflection` for reflection-based System.Text.Json; the package
+> references it and registers it for you.
 
 ## Health checks
 

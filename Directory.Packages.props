@@ -10,6 +10,7 @@
         <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.15" />
         <PackageVersion Include="Refit" Version="17.0.0" />
         <PackageVersion Include="Refit.HttpClientFactory" Version="17.0.0" />
+        <PackageVersion Include="Refit.Reflection" Version="17.0.0" />
         <PackageVersion Include="RestEase" Version="1.6.4" />
         <PackageVersion Include="RestEase.HttpClientFactory" Version="1.6.4" />
         <PackageVersion Include="RestSharp" Version="114.1.0" />
