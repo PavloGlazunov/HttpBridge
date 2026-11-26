@@ -21,6 +21,7 @@
       <ProjectReference Include="..\..\src\RestEase.Extensions\RestEase.Extensions.csproj" />
       <ProjectReference Include="..\..\src\RestSharp.Extensions\RestSharp.Extensions.csproj" />
       <ProjectReference Include="..\..\src\Flurl.Http.Extensions\Flurl.Http.Extensions.csproj" />
+      <ProjectReference Include="..\..\src\WebApiClient.Extensions\WebApiClient.Extensions.csproj" />
     </ItemGroup>
 
 </Project>
