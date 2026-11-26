@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>HttpBridge.RestEase</PackageId>
+        <Description>RestEase client registration with System.Text.Json, resilience policies, configuration binding, authorization handlers and health checks.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RestEase" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HttpBridge.Core\HttpBridge.Core.csproj" />
+    </ItemGroup>
+
+</Project>

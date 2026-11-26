@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>HttpBridge.SwaggerCodeGen</PackageId>
+        <Description>HttpClient client generated from OpenAPI with NSwag, wired up with configuration binding, resilience policies, authorization handlers and health checks.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HttpBridge.Core\HttpBridge.Core.csproj" />
+    </ItemGroup>
+
+</Project>

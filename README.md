@@ -1,4 +1,4 @@
-# http-libraries-example
+# HttpBridge
 
 **Goal:** make writing HTTP clients simpler, and make it easier to migrate OData clients to plain HTTP clients.
 
@@ -9,27 +9,27 @@ Shared NuGet packages (.NET 10) that give every popular .NET HTTP client library
 - optional authorization `DelegatingHandler`
 - `IHealthCheckableApiClient` with `/health` and `/health/deep` (optionally prefixed), resolvable as `IEnumerable<IHealthCheckableApiClient>`
 - System.Text.Json (camelCase) everywhere
-- OData `$filter` builder (in `Http.Extensions.Core`)
+- OData `$filter` builder (in `HttpBridge.Core`)
 
 Usage and registration examples for each library are in the README of its package (links in the table below).
 
 | Library | Package | Style |
 |---|---|---|
-| (shared) | [Http.Extensions.Core](src/Http.Extensions.Core/README.md) | options, resilience, health, OData filter |
-| RestSharp | [RestSharp.Extensions](src/RestSharp.Extensions/README.md) | typed client base class |
-| Flurl.Http | [Flurl.Http.Extensions](src/Flurl.Http.Extensions/README.md) | typed client base class |
-| RestEase | [RestEase.Extensions](src/RestEase.Extensions/README.md) | interface |
-| Refit | [Refit.Extensions](src/Refit.Extensions/README.md) | interface |
-| Refitter | [Refitter.Extensions](src/Refitter.Extensions/README.md) | Refit client generated from OpenAPI |
-| WebApiClient | [WebApiClient.Extensions](src/WebApiClient.Extensions/README.md) | interface |
-| Swagger CodeGen | [SwaggerCodeGen.Extensions](src/SwaggerCodeGen.Extensions/README.md) | HttpClient client generated from OpenAPI (NSwag) |
+| (shared) | [HttpBridge.Core](src/HttpBridge.Core/README.md) | options, resilience, health, OData filter |
+| RestSharp | [HttpBridge.RestSharp](src/HttpBridge.RestSharp/README.md) | typed client base class |
+| Flurl.Http | [HttpBridge.Flurl](src/HttpBridge.Flurl/README.md) | typed client base class |
+| RestEase | [HttpBridge.RestEase](src/HttpBridge.RestEase/README.md) | interface |
+| Refit | [HttpBridge.Refit](src/HttpBridge.Refit/README.md) | interface |
+| Refitter | [HttpBridge.Refitter](src/HttpBridge.Refitter/README.md) | Refit client generated from OpenAPI |
+| WebApiClient | [HttpBridge.WebApiClient](src/HttpBridge.WebApiClient/README.md) | interface |
+| Swagger CodeGen | [HttpBridge.SwaggerCodeGen](src/HttpBridge.SwaggerCodeGen/README.md) | HttpClient client generated from OpenAPI (NSwag) |
 
 ## Build, test, pack
 
 ```powershell
-dotnet build HttpLibraries.slnx
+dotnet build HttpBridge.slnx
 dotnet test
-dotnet pack HttpLibraries.slnx -c Release -o artifacts
+dotnet pack HttpBridge.slnx -c Release -o artifacts
 ```
 
 Generated clients are committed. Regenerate with `dotnet tool restore`, then the commands in the Refitter and

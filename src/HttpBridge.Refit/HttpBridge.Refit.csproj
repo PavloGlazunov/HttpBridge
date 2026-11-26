@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>HttpBridge.Refit</PackageId>
+        <Description>Refit client registration with resilience policies, configuration binding, authorization handlers and health checks.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Refit" />
+        <PackageReference Include="Refit.HttpClientFactory" />
+        <PackageReference Include="Refit.Reflection" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HttpBridge.Core\HttpBridge.Core.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HttpBridge.Flurl/HttpBridge.Flurl.csproj" />
+    <Project Path="src/HttpBridge.Core/HttpBridge.Core.csproj" />
+    <Project Path="src/HttpBridge.Refit/HttpBridge.Refit.csproj" />
+    <Project Path="src/HttpBridge.Refitter/HttpBridge.Refitter.csproj" />
+    <Project Path="src/HttpBridge.RestEase/HttpBridge.RestEase.csproj" />
+    <Project Path="src/HttpBridge.RestSharp/HttpBridge.RestSharp.csproj" />
+    <Project Path="src/HttpBridge.SwaggerCodeGen/HttpBridge.SwaggerCodeGen.csproj" />
+    <Project Path="src/HttpBridge.WebApiClient/HttpBridge.WebApiClient.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HttpBridge.Tests/HttpBridge.Tests.csproj" />
+  </Folder>
+</Solution>

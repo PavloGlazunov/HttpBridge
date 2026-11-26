@@ -1,0 +1,10 @@
+{
+  "openApiPath": "openapi/petstore.json",
+  "namespace": "HttpBridge.Refitter.Petstore",
+  "naming": { "useOpenApiTitle": false, "interfaceName": "PetstoreApi" },
+  "outputFolder": "Generated",
+  "outputFilename": "PetstoreApi.g.cs",
+  "generateContracts": true,
+  "useCancellationTokens": true,
+  "returnIApiResponse": false
+}

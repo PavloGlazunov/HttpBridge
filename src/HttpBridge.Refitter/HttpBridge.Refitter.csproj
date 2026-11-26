@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>HttpBridge.Refitter</PackageId>
+        <Description>Refit client generated from OpenAPI with Refitter, wired up with HttpBridge.Refit (configuration, resilience, health).</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HttpBridge.Refit\HttpBridge.Refit.csproj" />
+    </ItemGroup>
+
+</Project>
