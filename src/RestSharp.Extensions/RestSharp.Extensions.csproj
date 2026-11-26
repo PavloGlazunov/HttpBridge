@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>RestSharp.Extensions</PackageId>
+        <Description>RestSharp client registration with System.Text.Json, resilience policies, configuration binding, authorization handlers and health checks.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RestSharp" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Http.Extensions.Core\Http.Extensions.Core.csproj" />
+    </ItemGroup>
+
+</Project>
