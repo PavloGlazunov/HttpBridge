@@ -1,5 +1,7 @@
 # http-libraries-example
 
+**Goal:** make writing HTTP clients simpler, and make it easier to migrate OData clients to plain HTTP clients.
+
 Shared NuGet packages (.NET 10) that give every popular .NET HTTP client library the same set of features:
 
 - registration from `appsettings.json` (`BaseUrl`, `Headers`, `Timeout`, ...)
@@ -8,6 +10,8 @@ Shared NuGet packages (.NET 10) that give every popular .NET HTTP client library
 - `IHealthCheckableApiClient` with `/health` and `/health/deep` (optionally prefixed), resolvable as `IEnumerable<IHealthCheckableApiClient>`
 - System.Text.Json (camelCase) everywhere
 - OData `$filter` builder (in `Http.Extensions.Core`)
+
+Usage and registration examples for each library are in the README of its package (links in the table below).
 
 | Library | Package | Style |
 |---|---|---|
