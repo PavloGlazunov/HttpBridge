@@ -20,6 +20,7 @@
       <ProjectReference Include="..\..\src\Refit.Extensions\Refit.Extensions.csproj" />
       <ProjectReference Include="..\..\src\RestEase.Extensions\RestEase.Extensions.csproj" />
       <ProjectReference Include="..\..\src\RestSharp.Extensions\RestSharp.Extensions.csproj" />
+      <ProjectReference Include="..\..\src\Flurl.Http.Extensions\Flurl.Http.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Flurl.Http.Extensions/Flurl.Http.Extensions.csproj" />
     <Project Path="src/Http.Extensions.Core/Http.Extensions.Core.csproj" />
     <Project Path="src/Refit.Extensions/Refit.Extensions.csproj" />
     <Project Path="src/RestEase.Extensions/RestEase.Extensions.csproj" />
